@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width" />
+    <title>Ecommerce - PCStore</title>
+    <!-- CSS -->
+    <!-- Google font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <!-- TOP HEADER -->
+        <div id="top-header">
+            <div class="container">
+                <ul class="header-links pull-left">
+                    <li><a href="#"><i class="fa fa-phone"></i> +51-954124015</a></li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> venta@pcstore.com</a></li>
+                    <li><a href="#"><i class="fa fa-map-marker"></i> Av. Bolivia N° 199 - CC. CENTRO LIMA</a></li>
+                </ul>
+                <ul class="header-links pull-right">
+
+                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                    <li><a routerLink="/login">Dashboard</a></li>
+                    <!-- 
+                    @{
+                        string texto = "Iniciar Sesión";
+                        if ((Context.Session.GetString("_UserNormal") == null) || (Context.Session.GetString("_UserNormal") == ""))
+                        {
+                            <li><a asp-action="Index" asp-controller="Login"><i class="fa fa-user-o"></i> @texto</a></li>
+                        }
+                        else
+                        {-->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            {{name}}
+                        </button>
+                        <div class="dropdown-menu" style="text-align:center;">
+                            <div class="dropdown-divider"></div>
+                            <a asp-action="CerrarSesion" asp-controller="Login" class="dropdown-item">Cerrar Sesion</a>
+                        </div>
+                    </div>
+                    }
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <!-- /TOP HEADER -->
+        <!-- MAIN HEADER -->
+        <div id="header">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <!-- LOGO -->
+                    <div class="col-md-3">
+                        <div class="header-logo">
+                            <a href="#" class="logo">
+                                <img src="../../../../assets/imagenes/logo.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /LOGO -->
+                    <!-- SEARCH BAR -->
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form>
+                                <select class="input-select">
+                                    <option value="0">All Categories</option>
+                                    <option value="1">Category 01</option>
+                                    <option value="1">Category 02</option>
+                                </select>
+                                <input class="input" placeholder="Buscar Aqui">
+                                <button class="search-btn">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-3 clearfix">
+                        <div class="header-ctn">
+                            <div>
+                                <a (click)="irCarrito()">
+
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Mi carrito</span>
+                                    <div class="qty">{{itemCount()}}</div>
+                                </a>
+                            </div>
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                            <!-- /Menu Toogle -->
+                        </div>
+                    </div>
+                    <!-- /ACCOUNT -->
+                </div>
+                <!-- row -->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- /MAIN HEADER -->
+    </header>
+    <!-- /HEADER -->
+    <!-- NAVIGATION -->
+    <nav id="navigation">
+        <!-- container -->
+        <div class="container">
+            <!-- responsive-nav -->
+            <div id="responsive-nav">
+                <!-- NAV -->
+                <ul class="main-nav nav navbar-nav">
+                    <li class="active"><a routerLink="ecommerce">Inicio</a></li>
+                    <li class="desactive"><a asp-action="Contactanos" asp-controller="Ecommerce">Contactanos</a></li>
+                </ul>
+                <!-- /NAV -->
+            </div>
+            <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+    </nav>
+    <!-- /NAVIGATION -->
+    <div>
+
+        <!--CUERPOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO-->
+        <!-- SECTION -->
+        <div class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6 order-details">
+                        <div class="section-title text-center">
+                            <h3 class="title">Su Orden (PC STORE)</h3>
+                        </div>
+                        <div class="order-summary">
+                            <div class="order-col">
+                                <div><strong>PRODUCTO</strong></div>
+                                <div><strong>TOTAL</strong></div>
+                                <div><strong></strong></div>
+                            </div>
+                            <div class="order-products">
+
+                                <div class="order-col" *ngFor="let item of items">
+                                    <div>{{item.cantidad}} x {{item.producto.descripcion}}</div>
+                                    <div>{{item.importe}}</div>
+                                    <div><a class="fa fa-trash fa-2x" (click)="eliminarProducto(item.producto.id)"></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="order-col">
+                                <div>Envio</div>
+                                <div><strong>Gratis</strong></div>
+                                <div><strong></strong></div>
+                            </div>
+                            <div class="order-col">
+                                <div><strong>TOTAL</strong></div>
+                                <div><strong class="order-total">S/{{total}}</strong></div>
+                                <div><strong></strong></div>
+                            </div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="input-radio">
+                                <input type="radio" name="payment" id="payment-1">
+                                <label for="payment-1">
+                                    <span></span>
+                                    Transferencia bancaria directa
+                                </label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua.</p>
+                                </div>
+                            </div>
+                            <div class="input-radio">
+                                <input type="radio" name="payment" id="payment-2">
+                                <label for="payment-2">
+                                    <span></span>
+                                    Cheque Pago
+                                </label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua.</p>
+                                </div>
+                            </div>
+                            <div class="input-radio">
+                                <input type="radio" name="payment" id="payment-3">
+                                <label for="payment-3">
+                                    <span></span>
+                                    Sistema Paypal
+                                </label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-checkbox">
+                            <input type="checkbox" id="terms">
+                            <label for="terms">
+                                <span></span>
+                                He leído y acepto los <a href="#">términos y condiciones</a>
+                            </label>
+                        </div>
+                        <!-- 
+                @{
+                    if ((Context.Session.GetString("_UserNormal") == null) || (Context.Session.GetString("_UserNormal") == ""))
+                    {
+
+                        <a asp-action="Index" asp-controller="Login" class="primary-btn order-submit">Ordenar ahora</a>
+                    }
+                    else
+                    {
+                        -->
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="text-align:center">
+                                        <h2 class="modal-title" id="exampleModalLabel">¡Su compra ha sido exitosa!</h2>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4>Le avisaremos cuando su pedido este en camino.</h4>
+                                        <h5>Recuerda que para recibir su pedido deberá presentar su DNI</h5>
+                                        <br />
+                                        <h5>Será redirigido en 5 segundos ...</h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"
+                                            data-dismiss="modal">Aceptar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MODAL -->
+                        <form>
+                            <input asp-for="Id_Venta" class="form-control" type="hidden" />
+                            <input asp-for="NumFactura" class="form-control" value="@ViewBag.numerofactura"
+                                type="hidden" />
+                            <input asp-for="Total_Fac" class="form-control" value="@ViewBag.total" type="hidden" />
+                            <input asp-for="IdUsuario" class="form-control" type="hidden" />
+                            <div class="form-group">
+                                <!-- <input type="submit" value="Ordenar ahora" class="primary-btn order-submit" style="width:100%" data-toggle="modal" data-target="#exampleModal" /> -->
+                                <button (click)="guardarVenta()" class="primary-btn order-submit"
+                                    class="primary-btn order-submit" style="width:100%" data-toggle="modal"
+                                    data-target="#exampleModal">Ordenar ahora</button>
+                            </div>
+                        </form>
+                        <!--
+                        <a href="#" class="primary-btn order-submit">Ordenar ahora</a>-->
+
+
+                    </div>
+                    <!-- /Order Details -->
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /SECTION -->
+
+
+        <!-- NEWSLETTER -->
+        <div id="newsletter" class="section">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="newsletter">
+                            <p>Si quieres recibir promociones especiales, suscribete a <strong>PCStore</strong></p>
+                            <form>
+                                <input class="input" type="email" placeholder="Ingrese su Correo">
+                                <button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribir</button>
+                            </form>
+                            <ul class="newsletter-follow">
+                                <li>
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-pinterest"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+
+        <!-- FINNNNNNNNNN CUERPOOOOOOOOOOOOOOOOOOOOOOOO-->
+
+        <!-- /NEWSLETTER -->
+        <!-- FOOTER -->
+        <footer id="footer">
+            <!-- top footer -->
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-md-3 col-xs-6">
+                            <div class="footer">
+                                <h3 class="footer-title">Contáctanos</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut.</p>
+                                <ul class="footer-links">
+                                    <li><a href="#"><i class="fa fa-map-marker"></i>Av. Bolivia N° 199 - CC. CENTRO LIMA
+                                        </a></li>
+                                    <li><a href="#"><i class="fa fa-phone"></i>+51-954124015</a></li>
+                                    <li><a href="#"><i class="fa fa-envelope-o"></i>ventas@pcstore.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xs-6">
+                            <div class="footer">
+                                <h3 class="footer-title">Categorias</h3>
+                                <ul class="footer-links">
+                                    <li><a href="#">Ofertas especiales</a></li>
+                                    <li><a href="#">Laptops</a></li>
+                                    <li><a href="#">Periféricos</a></li>
+                                    <li><a href="#">Camaras</a></li>
+                                    <li><a href="#">Accesorios</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="clearfix visible-xs"></div>
+
+                        <div class="col-md-3 col-xs-6">
+                            <div class="footer">
+                                <h3 class="footer-title">Informacion</h3>
+                                <ul class="footer-links">
+                                    <li><a href="#">Sobre nosotros</a></li>
+                                    <li><a href="#">Contáctenos</a></li>
+                                    <li><a href="#">Política de Privacidad</a></li>
+                                    <li><a href="#">Pedidos y Devoluciones</a></li>
+                                    <li><a href="#">Términos y Condiciones</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xs-6">
+                            <div class="footer">
+                                <h3 class="footer-title">Servicios</h3>
+                                <ul class="footer-links">
+                                    <li><a href="#">Mi cuenta</a></li>
+                                    <li><a href="#">Ver Carrito</a></li>
+                                    <li><a href="#">Ayuda</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /top footer -->
+            <!-- bottom footer -->
+            <div id="bottom-footer" class="section">
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <ul class="footer-payments">
+                                <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+                                <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+                                <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+                            </ul>
+                            <span class="copyright">
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </span>
+                        </div>
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /bottom footer -->
+        </footer>
+        <!-- /FOOTER -->
